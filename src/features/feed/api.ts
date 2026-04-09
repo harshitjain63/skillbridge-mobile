@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { StatusBar } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import { api } from '@/api/client';
 
 export type Course = {
@@ -46,7 +48,13 @@ export function useCourses() {
   });
 
   if (query.isError) {
-    console.log('COURSE ERROR:', query.error);
+    showMessage({
+      message: query.error.message || 'No Data Found!!',
+      type: 'danger',
+      icon: 'danger',
+      statusBarHeight: StatusBar.currentHeight,
+      position: 'top',
+    });
   }
 
   return query;

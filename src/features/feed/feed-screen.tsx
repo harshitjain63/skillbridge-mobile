@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { scheduleReminderNotification } from '@/lib/notifications';
+import { OfflineBanner } from '../auth/components/offline-banner';
 import { useCourses } from './api';
 import { CourseCard } from './components/course-card';
 import { useCourseStore } from './use-course-store';
@@ -170,6 +171,7 @@ export function FeedScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 bg-gray-50 dark:bg-neutral-950">
+        <OfflineBanner />
         <ListHeader search={search} setSearch={setSearch} count={0} />
         <LoadingState />
       </View>
@@ -186,6 +188,8 @@ export function FeedScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-950">
+      <OfflineBanner />
+
       <FlashList
         data={filteredData}
         renderItem={renderItem}

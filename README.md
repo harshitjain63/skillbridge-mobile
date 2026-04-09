@@ -13,7 +13,7 @@ SkillBridge Mobile App
 
 * Login & Register flow
 * Basic auth handling
-* (Pending) Profile picture upload
+* Profile picture upload
 
 ---
 
@@ -103,8 +103,7 @@ pnpm android
 
 ## ⚠️ Known Limitations
 
-* Profile picture upload pending
-* 24-hour inactivity notification not implemented yet
+* The Images coming from the free api is not visible in the react native , i dont know the exact issue
 * UI can be further polished
 
 ---

@@ -1,4 +1,4 @@
-import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Redirect, router, SplashScreen, Tabs } from 'expo-router';
 import * as React from 'react';
 import { useCallback, useEffect } from 'react';
 
@@ -68,10 +68,10 @@ export default function TabLayout() {
 
 function CreateNewPostLink() {
   return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Profile</Text>
-      </Pressable>
-    </Link>
+
+    <Pressable onPress={() => { router.push('/profile'); }}>
+      <Text className="px-3 text-primary-300">Profile</Text>
+    </Pressable>
+
   );
 }

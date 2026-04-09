@@ -7,6 +7,7 @@ import { StatusBar } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { loginApi } from '@/api/auth';
 import { FocusAwareStatusBar } from '@/components/ui';
+import { useProfileStore } from '../profile/use-profile-store';
 import { LoginForm } from './components/login-form';
 import { useAuthStore } from './use-auth-store';
 
@@ -29,11 +30,18 @@ export function LoginScreen() {
       };
 
       signIn(token);
+      const setUser = useProfileStore.getState().setUser;
 
+      setUser({
+        id: res.data.user._id,
+        username: res.data.user.username,
+        email: res.data.user.email,
+        avatar: res.data.user.avatar?.url,
+        role: res.data.user.role,
+      });
       router.replace('/');
     }
     catch (error) {
-      console.log('Login error', error);
       if (error instanceof axios.AxiosError) {
         showMessage({
           message: 'Login Failed',
