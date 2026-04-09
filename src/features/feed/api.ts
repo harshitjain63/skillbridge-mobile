@@ -1,46 +1,53 @@
-import type { AxiosError } from 'axios';
-import { createMutation, createQuery } from 'react-query-kit';
-import { client } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/api/client';
 
-// Types
-export type Post = {
-  userId: number;
+export type Course = {
   id: number;
   title: string;
-  body: string;
+  description: string;
+  thumbnail: string;
+  instructor: string;
+  price: number;
+  rating: number;
+  category: string;
+  brand: string;
+  images: string[];
 };
 
-// Hooks
-type PostsResponse = Post[];
-type PostsVariables = void;
+export async function fetchCourses(): Promise<Course[]> {
+  const [productsRes, usersRes] = await Promise.all([
+    api.get('/public/randomproducts'),
+    api.get('/public/randomusers'),
+  ]);
 
-export const usePosts = createQuery<PostsResponse, PostsVariables, AxiosError>({
-  queryKey: ['posts'],
-  fetcher: () => {
-    return client.get(`posts`).then(response => response.data.posts);
-  },
-});
+  const products = productsRes.data?.data?.data ?? [];
+  const users = usersRes.data?.data?.data ?? [];
 
-type PostResponse = Post;
-type PostVariables = { id: string };
+  return products.map((item: any, index: number) => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    thumbnail: item.thumbnail,
+    instructor: `${users[index % users.length]?.name?.first ?? ''} ${
+      users[index % users.length]?.name?.last ?? ''
+    }`,
+    price: item.price,
+    rating: item.rating,
+    category: item.category,
+    brand: item.brand,
+    images: item.images,
+  }));
+}
 
-export const usePost = createQuery<PostResponse, PostVariables, AxiosError>({
-  queryKey: ['posts'],
-  fetcher: (variables) => {
-    return client
-      .get(`posts/${variables.id}`)
-      .then(response => response.data);
-  },
-});
+export function useCourses() {
+  const query = useQuery({
+    queryKey: ['courses'],
+    queryFn: fetchCourses,
+  });
 
-type AddPostResponse = Post;
-type AddPostVariables = { title: string; body: string; userId: number };
+  if (query.isError) {
+    console.log('COURSE ERROR:', query.error);
+  }
 
-export const useAddPost = createMutation<AddPostResponse, AddPostVariables, AxiosError>({
-  mutationFn: async variables =>
-    client({
-      url: 'posts/add',
-      method: 'POST',
-      data: variables,
-    }).then(response => response.data),
-});
+  return query;
+}
