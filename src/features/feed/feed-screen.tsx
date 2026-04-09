@@ -11,6 +11,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { scheduleReminderNotification } from '@/lib/notifications';
 import { useCourses } from './api';
 import { CourseCard } from './components/course-card';
 import { useCourseStore } from './use-course-store';
@@ -145,6 +146,9 @@ export function FeedScreen() {
   React.useEffect(() => {
     hydrate();
   }, [hydrate]);
+  React.useEffect(() => {
+    scheduleReminderNotification();
+  }, []);
 
   const filteredData = React.useMemo(() => {
     if (!data)
