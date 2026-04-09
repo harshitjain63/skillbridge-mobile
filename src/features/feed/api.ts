@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { StatusBar } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { api } from '@/api/client';
+import { useCourseCacheStore } from './use-course-data';
 
 export type Course = {
   id: number;
@@ -17,28 +18,42 @@ export type Course = {
 };
 
 export async function fetchCourses(): Promise<Course[]> {
-  const [productsRes, usersRes] = await Promise.all([
-    api.get('/public/randomproducts'),
-    api.get('/public/randomusers'),
-  ]);
+  const setCourses = useCourseCacheStore.getState().setCourses;
+  try {
+    const [productsRes, usersRes] = await Promise.all([
+      api.get('/public/randomproducts'),
+      api.get('/public/randomusers'),
+    ]);
 
-  const products = productsRes.data?.data?.data ?? [];
-  const users = usersRes.data?.data?.data ?? [];
+    const products = productsRes.data?.data?.data ?? [];
+    const users = usersRes.data?.data?.data ?? [];
 
-  return products.map((item: any, index: number) => ({
-    id: item.id,
-    title: item.title,
-    description: item.description,
-    thumbnail: item.thumbnail,
-    instructor: `${users[index % users.length]?.name?.first ?? ''} ${
-      users[index % users.length]?.name?.last ?? ''
-    }`,
-    price: item.price,
-    rating: item.rating,
-    category: item.category,
-    brand: item.brand,
-    images: item.images,
-  }));
+    const formatted = products.map((item: any, index: number) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      thumbnail: item.thumbnail,
+      instructor: `${users[index % users.length]?.name?.first ?? ''} ${
+        users[index % users.length]?.name?.last ?? ''
+      }`,
+      price: item.price,
+      rating: item.rating,
+      category: item.category,
+      brand: item.brand,
+      images: item.images,
+    }));
+    setCourses(formatted);
+    return formatted;
+  }
+  catch (error) {
+    const cached = useCourseCacheStore.getState().courses;
+
+    if (cached.length > 0) {
+      return cached;
+    }
+
+    throw error;
+  }
 }
 
 export function useCourses() {

@@ -15,6 +15,7 @@ import { scheduleReminderNotification } from '@/lib/notifications';
 import { OfflineBanner } from '../auth/components/offline-banner';
 import { useCourses } from './api';
 import { CourseCard } from './components/course-card';
+import { useCourseCacheStore } from './use-course-data';
 import { useCourseStore } from './use-course-store';
 
 function SkeletonCard() {
@@ -142,26 +143,34 @@ export function FeedScreen() {
   const colorScheme = useColorScheme();
   const { data, isError, isLoading, refetch, isRefetching } = useCourses();
   const [search, setSearch] = React.useState('');
+  const cachedCourses = useCourseCacheStore(s => s.courses);
   const hydrate = useCourseStore(s => s.hydrate);
+  const hydrateCache = useCourseCacheStore(s => s.hydrate);
 
   React.useEffect(() => {
     hydrate();
-  }, [hydrate]);
+    hydrateCache();
+  }, [hydrate, hydrateCache]);
+
   React.useEffect(() => {
     scheduleReminderNotification();
   }, []);
 
+  const finalData = data?.length ? data : cachedCourses;
+
   const filteredData = React.useMemo(() => {
-    if (!data)
+    if (!finalData)
       return [];
+
     const q = search.toLowerCase();
-    return data.filter(
+
+    return finalData.filter(
       item =>
         item.title.toLowerCase().includes(q)
         || item.instructor.toLowerCase().includes(q)
         || item.category.toLowerCase().includes(q),
     );
-  }, [data, search]);
+  }, [finalData, search]);
 
   const renderItem = React.useCallback(
     ({ item }: { item: Course }) => <CourseCard {...item} />,
