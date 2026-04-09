@@ -222,9 +222,9 @@ export function CourseDetailScreen() {
     <View className="flex-1 bg-gray-50 dark:bg-neutral-950">
       <Stack.Screen
         options={{
-          title: '',
-          headerTransparent: true,
-          headerTintColor: '#fff',
+          title: 'Course Detail',
+          headerTransparent: false,
+          headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
         }}
       />
 
@@ -316,7 +316,7 @@ export function CourseDetailScreen() {
       </ScrollView>
 
       <View
-        className="absolute right-0 bottom-0 left-0 flex-row gap-x-3 border-t border-gray-100 bg-white px-4 pt-3 dark:border-neutral-800 dark:bg-neutral-900"
+        className="absolute inset-x-0 bottom-0 flex-row gap-x-3 border-t border-gray-100 bg-white px-4 pt-3 dark:border-neutral-800 dark:bg-neutral-900"
         style={{ paddingBottom: insets.bottom + 12 }}
       >
         <Pressable

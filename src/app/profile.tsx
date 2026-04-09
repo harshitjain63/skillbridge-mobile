@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import {
   ActivityIndicator,
@@ -186,7 +186,13 @@ export default function ProfileScreen() {
       contentContainerStyle={{ paddingBottom: 48 }}
       showsVerticalScrollIndicator={false}
     >
-
+      <Stack.Screen
+        options={{
+          title: 'Profile',
+          headerTransparent: false,
+          headerTintColor: isDark ? '#fff' : '#000',
+        }}
+      />
       <View style={{ height: 110, backgroundColor: '#4338ca' }} />
 
       <View
@@ -210,7 +216,6 @@ export default function ProfileScreen() {
               borderColor: cardBg,
             }}
           />
-          {/* Camera / spinner overlay */}
           <View
             style={{
               position: 'absolute',
@@ -309,9 +314,7 @@ export default function ProfileScreen() {
         </View>
 
         <View style={{ height: 6, borderRadius: 99, backgroundColor: '#2d2b3d', flexDirection: 'row', overflow: 'hidden' }}>
-          {/* Filled portion */}
           <View style={{ flex: progress, backgroundColor: '#4f46e5' }} />
-          {/* Empty portion */}
           <View style={{ flex: 100 - progress }} />
         </View>
       </View>

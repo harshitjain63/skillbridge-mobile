@@ -1,16 +1,22 @@
+/* eslint-disable max-lines-per-function */
 import type { Course } from './api';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
-import * as React from 'react';
+import { useFocusEffect } from 'expo-router';
 
+import * as React from 'react';
 import {
   ActivityIndicator,
+  BackHandler,
   Pressable,
+  StatusBar,
   Text,
   TextInput,
+
   useColorScheme,
   View,
 } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import { scheduleReminderNotification } from '@/lib/notifications';
 import { OfflineBanner } from '../auth/components/offline-banner';
 import { useCourses } from './api';
@@ -146,6 +152,7 @@ export function FeedScreen() {
   const cachedCourses = useCourseCacheStore(s => s.courses);
   const hydrate = useCourseStore(s => s.hydrate);
   const hydrateCache = useCourseCacheStore(s => s.hydrate);
+  const backPressCount = React.useRef(0);
 
   React.useEffect(() => {
     hydrate();
@@ -155,6 +162,41 @@ export function FeedScreen() {
   React.useEffect(() => {
     scheduleReminderNotification();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (backPressCount.current === 0) {
+          backPressCount.current += 1;
+
+          showMessage({
+            message: 'Press back again to exit',
+            type: 'info',
+            position: 'top',
+            statusBarHeight: StatusBar.currentHeight,
+            icon: 'info',
+
+          });
+
+          setTimeout(() => {
+            backPressCount.current = 0;
+          }, 2000);
+
+          return true;
+        }
+
+        BackHandler.exitApp();
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      return () => subscription.remove(); // 🔥 cleanup on blur
+    }, []),
+  );
 
   const finalData = data?.length ? data : cachedCourses;
 
