@@ -1,46 +1,45 @@
 import type { LoginFormProps } from './components/login-form';
 import axios from 'axios';
-
 import { useRouter } from 'expo-router';
 import * as React from 'react';
 import { StatusBar } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { loginApi } from '@/api/auth';
+
+import { registerApi } from '@/api/auth';
 import { FocusAwareStatusBar } from '@/components/ui';
 import { LoginForm } from './components/login-form';
-import { useAuthStore } from './use-auth-store';
 
-export function LoginScreen() {
+export function RegisterScreen() {
   const router = useRouter();
-  const signIn = useAuthStore.use.signIn();
   const [loading, setLoading] = React.useState(false);
 
   const onSubmit: LoginFormProps['onSubmit'] = async (data) => {
     try {
       setLoading(true);
-      const res = await loginApi({
+
+      await registerApi({
         email: data.email,
         password: data.password,
+        username: data.name,
       });
 
-      const token = {
-        access: res.data?.accessToken || res.accessToken,
-        refresh: res.data?.refreshToken || res.refreshToken,
-      };
+      showMessage({
+        message: 'Success',
+        description: 'Account created successfully. Please login.',
+        type: 'success',
+        statusBarHeight: StatusBar.currentHeight,
+      });
 
-      signIn(token);
-
-      router.replace('/');
+      router.replace('/login');
     }
     catch (error) {
-      console.log('Login error', error);
       if (error instanceof axios.AxiosError) {
         showMessage({
-          message: 'Login Failed',
-          description: error.response?.data?.message || 'An error occurred during login.',
+          message: 'Registration Failed',
+          description:
+          error.response?.data.errors[0].message || error.response?.data?.message || 'Something went wrong',
           type: 'danger',
           statusBarHeight: StatusBar.currentHeight,
-          icon: 'danger',
         });
       }
     }
@@ -52,7 +51,7 @@ export function LoginScreen() {
   return (
     <>
       <FocusAwareStatusBar />
-      <LoginForm onSubmit={onSubmit} loading={loading} />
+      <LoginForm onSubmit={onSubmit} loading={loading} type="register" />
     </>
   );
 }
