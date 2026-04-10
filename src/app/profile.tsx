@@ -1,13 +1,14 @@
 /* eslint-disable max-lines-per-function */
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
+
 import {
   ActivityIndicator,
   Alert,
-  Image,
   Pressable,
   ScrollView,
   StatusBar,
@@ -15,7 +16,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
 import { showMessage } from 'react-native-flash-message';
 import { api } from '@/api/client';
 import { useAuthStore } from '@/features/auth/use-auth-store';
@@ -64,7 +64,7 @@ export default function ProfileScreen() {
   const token = getToken();
   const router = useRouter();
   const isDark = useColorScheme() === 'dark';
-
+  const [avatarSrc, setAvatarSrc] = React.useState<string | null>(null);
   const { user, updateAvatar, hydrate, clearProfile } = useProfileStore();
   const { bookmarks, enrolledCourses } = useCourseStore();
   const signOut = useAuthStore.use.signOut();
@@ -166,6 +166,12 @@ export default function ProfileScreen() {
     }
   };
 
+  React.useEffect(() => {
+    if (user?.avatar) {
+      setAvatarSrc(null);
+    }
+  }, [user?.avatar]);
+
   if (!user) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: isDark ? '#030712' : '#f9fafb' }}>
@@ -174,7 +180,7 @@ export default function ProfileScreen() {
     );
   }
 
-  const avatarUri = getAvatarUri(user.avatar, user.username);
+  const avatarUri = avatarSrc || getAvatarUri(user.avatar, user.username);
   const bgColor = isDark ? '#030712' : '#f9fafb';
   const textPrimary = isDark ? '#f1f0ff' : '#111827';
   const textMuted = isDark ? '#9ca3af' : '#6b7280';
@@ -208,12 +214,21 @@ export default function ProfileScreen() {
         <Pressable onPress={pickImage} disabled={avatarLoading}>
           <Image
             source={{ uri: avatarUri }}
+            cachePolicy="memory-disk"
             style={{
               width: 88,
               height: 88,
               borderRadius: 44,
               borderWidth: 3,
               borderColor: cardBg,
+            }}
+
+            onError={() => {
+              if (!avatarSrc) {
+                setAvatarSrc(
+                  `https://ui-avatars.com/api/?background=4f46e5&color=fff&size=200&name=${encodeURIComponent(user.username)}`,
+                );
+              }
             }}
           />
           <View
