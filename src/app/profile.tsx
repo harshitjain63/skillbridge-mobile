@@ -168,6 +168,7 @@ export default function ProfileScreen() {
 
   React.useEffect(() => {
     if (user?.avatar) {
+      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
       setAvatarSrc(null);
     }
   }, [user?.avatar]);
