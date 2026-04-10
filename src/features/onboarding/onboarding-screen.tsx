@@ -20,26 +20,29 @@ export function OnboardingScreen() {
       <View className="w-full flex-1">
         <Cover />
       </View>
-      <View className="justify-end">
-        <Text className="my-3 text-center text-5xl font-bold">
-          Obytes Starter
-        </Text>
-        <Text className="mb-2 text-center text-lg text-gray-600">
-          The right way to build your mobile app
+      <View className="justify-end px-4">
+        <Text className="my-3 text-center text-4xl font-bold">
+          Learn Anytime, Anywhere
         </Text>
 
-        <Text className="my-1 pt-6 text-left text-lg">
-          🚀 Production-ready
-          {' '}
+        <Text className="mb-4 text-center text-base text-gray-600">
+          Discover courses, upgrade your skills, and stay consistent.
         </Text>
-        <Text className="my-1 text-left text-lg">
-          🥷 Developer experience + Productivity
+
+        <Text className="my-1 pt-4 text-left text-base">
+          📚 Explore a variety of courses
         </Text>
-        <Text className="my-1 text-left text-lg">
-          🧩 Minimal code and dependencies
+
+        <Text className="my-1 text-left text-base">
+          🔍 Search by topic, instructor, or category
         </Text>
-        <Text className="my-1 text-left text-lg">
-          💪 well maintained third-party libraries
+
+        <Text className="my-1 text-left text-base">
+          📶 Access courses even when offline
+        </Text>
+
+        <Text className="my-1 text-left text-base">
+          ⏰ Get reminders to keep learning daily
         </Text>
       </View>
       <SafeAreaView className="mt-6">
