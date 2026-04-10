@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import type { Course } from './api';
 import { Ionicons } from '@expo/vector-icons';
-import { FlashList } from '@shopify/flash-list';
+import { LegendList } from '@legendapp/list';
 import { useFocusEffect } from 'expo-router';
 
 import * as React from 'react';
@@ -241,7 +241,7 @@ export function FeedScreen() {
     <View className="flex-1 bg-gray-50 dark:bg-neutral-950">
       <OfflineBanner />
 
-      <FlashList
+      <LegendList
         data={filteredData}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}

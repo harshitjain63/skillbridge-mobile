@@ -1,11 +1,11 @@
 /* eslint-disable max-lines-per-function */
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import * as Notifications from 'expo-notifications';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import * as React from 'react';
 import {
   Alert,
-  Image,
   Pressable,
   ScrollView,
   Text,
@@ -73,13 +73,17 @@ function Chip({ icon, label, variant = 'indigo' }: { icon: string; label: string
 
 function ImageGallery({ images }: { images: string[] }) {
   const [selected, setSelected] = React.useState(0);
+  const [imageMap, setImageMap] = React.useState<Record<number, string>>({});
+
   if (!images?.length)
     return null;
+
   return (
     <View className="mt-1">
       <Text className="mb-2 text-xs font-black tracking-widest text-gray-500 uppercase dark:text-gray-400">
         Gallery
       </Text>
+
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -98,9 +102,16 @@ function ImageGallery({ images }: { images: string[] }) {
             style={{ width: 90, height: 68 }}
           >
             <Image
-              source={{ uri }}
+              source={{ uri: imageMap[i] || uri }}
               style={{ width: '100%', height: '100%' }}
-              resizeMode="cover"
+              contentFit="cover"
+              placeholder="https://placehold.co/300x200?text=Loading..."
+              onError={() => {
+                setImageMap(prev => ({
+                  ...prev,
+                  [i]: 'https://placehold.co/300x200?text=Books',
+                }));
+              }}
             />
           </Pressable>
         ))}
@@ -161,6 +172,7 @@ export function CourseDetailScreen() {
   const course = data?.find(c => c.id === Number(id));
   const isBookmarked = bookmarks.includes(Number(id));
   const isEnrolled = enrolledCourses.includes(Number(id));
+  const [img, setImg] = React.useState(course?.thumbnail);
 
   const handleBookmark = React.useCallback(async () => {
     toggleBookmark(Number(id));
@@ -232,11 +244,17 @@ export function CourseDetailScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 120 + insets.bottom }}
       >
-        <View className="relative w-full" style={{ height: 300 }}>
+        <View>
           <Image
-            source={{ uri: course.thumbnail }}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
+            source={{ uri: img }}
+            style={{ width: '100%', height: 300 }}
+            contentFit="cover"
+            placeholder="https://placehold.co/300x200?text=Loading..."
+
+            cachePolicy="memory-disk"
+            onError={() => {
+              setImg(`https://placehold.co/300x200?text=${course.title}&font=roboto`);
+            }}
           />
           <View className="absolute inset-0 bg-black/25" />
           <Pressable

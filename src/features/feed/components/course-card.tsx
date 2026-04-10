@@ -1,9 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import * as Notifications from 'expo-notifications';
 import { Link } from 'expo-router';
 import * as React from 'react';
-import { Image, Pressable, Text, useColorScheme, View } from 'react-native';
+import { Pressable, Text, useColorScheme, View } from 'react-native';
 import { useCourseStore } from '../use-course-store';
 
 type Props = {
@@ -72,6 +73,7 @@ export function CourseCard({
   const colorScheme = useColorScheme();
   const { bookmarks, toggleBookmark }
     = useCourseStore();
+  const [img, setImg] = React.useState(thumbnail);
 
   const isBookmarked = bookmarks.includes(Number(id));
 
@@ -105,11 +107,15 @@ export function CourseCard({
     <Link href={`/feed/${id}`} asChild>
       <Pressable className="mx-4 my-2 overflow-hidden rounded-2xl bg-white shadow-sm active:scale-[0.985] active:opacity-90 dark:bg-neutral-900 dark:shadow-none">
 
-        <View className="relative w-full" style={{ height: 180 }}>
+        <View>
           <Image
-            source={{ uri: thumbnail }}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
+            source={{ uri: img }}
+            style={{ width: '100%', height: 180 }}
+            contentFit="cover"
+            cachePolicy="memory"
+            onError={() => {
+              setImg(`https://placehold.co/300x200?text=${title}&font=roboto`);
+            }}
           />
 
           <View className="absolute bottom-2.5 left-2.5 rounded-full bg-indigo-500/90 px-3 py-1">

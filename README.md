@@ -103,7 +103,7 @@ pnpm android
 
 ## ⚠️ Known Limitations
 
-* The Images coming from the free api is not visible in the react native , i dont know the exact issue
+* The Images coming from the free api is not visible in the react native , i dont know the exact issue , but when we upload the images from profile then updated image shows perfectly
 * UI can be further polished
 
 ---
