@@ -1,4 +1,4 @@
-import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Redirect, router, SplashScreen, Tabs } from 'expo-router';
 import * as React from 'react';
 import { useCallback, useEffect } from 'react';
 
@@ -6,7 +6,6 @@ import { Pressable, Text } from '@/components/ui';
 import {
   Feed as FeedIcon,
   Settings as SettingsIcon,
-  Style as StyleIcon,
 } from '@/components/ui/icons';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { useIsFirstTime } from '@/lib/hooks/use-is-first-time';
@@ -45,15 +44,6 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="style"
-        options={{
-          title: 'Style',
-          headerShown: false,
-          tabBarIcon: ({ color }) => <StyleIcon color={color} />,
-          tabBarButtonTestID: 'style-tab',
-        }}
-      />
-      <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
@@ -68,10 +58,10 @@ export default function TabLayout() {
 
 function CreateNewPostLink() {
   return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
-      </Pressable>
-    </Link>
+
+    <Pressable onPress={() => { router.push('/profile'); }}>
+      <Text className="px-3 text-primary-300">Profile</Text>
+    </Pressable>
+
   );
 }

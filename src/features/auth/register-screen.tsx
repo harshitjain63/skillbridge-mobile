@@ -37,7 +37,7 @@ export function RegisterScreen() {
         showMessage({
           message: 'Registration Failed',
           description:
-          error.response?.data.errors[0].message || error.response?.data?.message || 'Something went wrong',
+           error.response?.data?.message || 'Something went wrong',
           type: 'danger',
           statusBarHeight: StatusBar.currentHeight,
         });

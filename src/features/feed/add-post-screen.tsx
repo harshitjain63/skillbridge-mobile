@@ -2,17 +2,14 @@ import { useForm } from '@tanstack/react-form';
 
 import { Stack } from 'expo-router';
 import * as React from 'react';
-import { showMessage } from 'react-native-flash-message';
 import * as z from 'zod';
 
 import {
   Button,
   Input,
-  showErrorMessage,
   View,
 } from '@/components/ui';
 import { getFieldError } from '@/components/ui/form-utils';
-import { useAddPost } from './api';
 
 const schema = z.object({
   title: z.string().min(10),
@@ -20,8 +17,6 @@ const schema = z.object({
 });
 
 export function AddPostScreen() {
-  const { mutate: addPost, isPending } = useAddPost();
-
   const form = useForm({
     defaultValues: {
       title: '',
@@ -33,22 +28,6 @@ export function AddPostScreen() {
     },
     onSubmit: ({ value }) => {
       console.log(value);
-      addPost(
-        { ...value, userId: 1 },
-        {
-          onSuccess: () => {
-            showMessage({
-              message: 'Post added successfully',
-              type: 'success',
-            });
-            // here you can navigate to the post list and refresh the list data
-            // queryClient.invalidateQueries(usePosts.getKey());
-          },
-          onError: () => {
-            showErrorMessage('Error adding post');
-          },
-        },
-      );
     },
   });
 
@@ -93,7 +72,7 @@ export function AddPostScreen() {
           children={([isSubmitting]) => (
             <Button
               label="Add Post"
-              loading={isPending || isSubmitting}
+              loading={isSubmitting}
               onPress={form.handleSubmit}
               testID="add-post-button"
             />
