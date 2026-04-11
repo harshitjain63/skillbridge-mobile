@@ -92,7 +92,7 @@ Here’s a **clean, interview-ready README** you can directly paste 👇
 ## ⚙️ Setup Instructions
 
 ```bash
-git clone https://github.com/your-username/skillbridge-app
+git clone https://github.com/harshitjain63/skillbridge-mobile.git
 cd skillbridge-app
 
 pnpm install
