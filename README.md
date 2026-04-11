@@ -80,9 +80,9 @@ SkillBridge Mobile App
 Clone the repo and install dependencies:
 
 ```sh
-git clone https://github.com/user/repo-name
+git clone https://github.com/harshitjain63/skillbridge-mobile.git
 
-cd ./repo-name
+cd skillbridge-mobile
 
 pnpm install
 ```
