@@ -135,6 +135,16 @@ APP_BUILD_ONLY_VAR=build-only-value
 
 ---
 
+## 🧩 Optional / Supporting Technologies
+
+* **Form Handling:** React Hook Form principles (implemented using TanStack Form)
+* **Validation:** Zod (schema-based validation with TypeScript support)
+* **Image Handling:** Expo Image (optimized loading with caching, placeholder, and error fallback handling)
+
+---
+
+---
+
 ## 🏗️ Key Architectural Decisions
 
 * **Zustand** → lightweight global state (auth, bookmarks)
