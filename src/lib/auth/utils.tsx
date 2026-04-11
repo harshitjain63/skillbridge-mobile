@@ -1,4 +1,4 @@
-import { getItem, removeItem, setItem } from '@/lib/storage';
+import { getItem, removeItem, setItem } from './secure-token';
 
 const TOKEN = 'token';
 

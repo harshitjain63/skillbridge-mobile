@@ -1,28 +1,39 @@
-<h1 align="center">
-  <img alt="logo" src="./assets/icon.png" width="124px" style="border-radius:10px"/><br/>
-SkillBridge Mobile App
-</h1>
+Nice, your README is already solid — just needs proper structure + screenshots section + missing docs parts.
 
-> Built using Obytes Starter (Expo + React Native)
+Here’s a **clean, interview-ready README** you can directly paste 👇
 
 ---
 
-## 🚀 Features Implemented
+# 📱 SkillBridge Mobile App
+
+<p align="center">
+  <img alt="logo" src="./assets/icon.png" width="120" style="border-radius:12px"/>
+</p>
+
+<p align="center">
+  Built using <b>Expo + React Native (Obytes Starter)</b>
+</p>
+
+---
+
+## 🚀 Features
 
 ### 🔐 Authentication
 
 * Login & Register flow
-* Basic auth handling
-* Profile picture upload
+* Secure token storage using **Expo SecureStore**
+* Auto-login on app restart
+* Logout functionality
+* Basic token handling
 
 ---
 
 ### 📚 Course Feed
 
-* API integration using React Query
+* API integration using **React Query**
 * Search functionality
 * Pull-to-refresh
-* Optimized list using FlashList
+* Optimized list using **FlashList**
 * Loading, empty & error states
 * Bookmark toggle
 
@@ -30,17 +41,17 @@ SkillBridge Mobile App
 
 ### 📄 Course Detail
 
-* Course information (title, instructor, description, etc.)
-* Image display (fixed for React Native)
+* Course information (title, instructor, description)
+* Image rendering with fallback handling
 * Bookmark toggle
-* Enroll button with success feedback
+* Enroll button with feedback
 
 ---
 
 ### 🔖 Bookmark System
 
-* Zustand for state management
-* Persistent storage using MMKV
+* State management using **Zustand**
+* Persistent storage using **MMKV**
 * Bookmark listing screen
 * Auto hydration on app load
 
@@ -49,71 +60,171 @@ SkillBridge Mobile App
 ### 🌐 WebView Integration
 
 * Route: `/feed/[id]/content`
-* Injected course data from native → WebView
-* Interactive HTML UI inside WebView
-* WebView → Native communication via `postMessage`
+* Injected data from native → WebView
+* Interactive HTML UI
+* Two-way communication using `postMessage`
 
 ---
 
 ### 🔔 Notifications
 
-* Triggered when user bookmarks 5 courses
-* Permission handling implemented
-* Immediate notification scheduling
+* Triggered after bookmarking 5 courses
+* Permission handling
+* Local notification scheduling
 
 ---
 
 ## 🧱 Tech Stack
 
-* React Native (Expo)
+* React Native (Expo SDK 54)
+* TypeScript (strict mode)
 * Expo Router
 * NativeWind (Tailwind CSS)
 * React Query
-* Zustand + MMKV
+* Zustand
+* MMKV (app data)
+* Expo SecureStore (auth tokens)
 * React Native WebView
 * Expo Notifications
 
 ---
 
-## 👋 Quick start
+## ⚙️ Setup Instructions
 
-Clone the repo and install dependencies:
-
-```sh
-git clone https://github.com/user/repo-name
-
-cd ./repo-name
+```bash
+git clone https://github.com/your-username/skillbridge-app
+cd skillbridge-app
 
 pnpm install
 ```
 
-Run on iOS:
+Run app:
 
-```sh
+```bash
+pnpm android
+# or
 pnpm ios
 ```
 
-Run on Android:
+---
 
-```sh
-pnpm android
+## 🔐 Environment Variables
+
+Create a `.env` file in root:
+
+```env
+# Application Environment
+EXPO_PUBLIC_APP_ENV=development
+
+# API Configuration
+EXPO_PUBLIC_API_URL=https://api.freeapi.app/api/v1
+
+# Example Variables
+EXPO_PUBLIC_VAR_NUMBER=10
+EXPO_PUBLIC_VAR_BOOL=true
+
+# Build-time only (NOT exposed to app)
+SECRET_KEY=my-secret-key
+APP_BUILD_ONLY_VAR=build-only-value
 ```
 
----
+👉 Used in:
 
-## ⚠️ Known Limitations
-
-* The Images coming from the free api is not visible in the react native , i dont know the exact issue , but when we upload the images from profile then updated image shows perfectly
-* UI can be further polished
+* API client configuration (src/api/client.ts)
+* Environment-based builds
 
 ---
 
-## ✍️ Documentation
+## 🧩 Optional / Supporting Technologies
 
-* [Rules and Conventions](https://starter.obytes.com/getting-started/rules-and-conventions/)
-* [Project structure](https://starter.obytes.com/getting-started/project-structure)
-* [Environment vars and config](https://starter.obytes.com/getting-started/environment-vars-config)
-* [UI and Theming](https://starter.obytes.com/ui-and-theme/ui-theming)
-* [Components](https://starter.obytes.com/ui-and-theme/components)
-* [Forms](https://starter.obytes.com/ui-and-theme/Forms)
-* [Data fetching](https://starter.obytes.com/guides/data-fetching)
+* **Form Handling:** React Hook Form principles (implemented using TanStack Form)
+* **Validation:** Zod (schema-based validation with TypeScript support)
+* **Image Handling:** Expo Image (optimized loading with caching, placeholder, and error fallback handling)
+
+---
+
+---
+
+## 🏗️ Key Architectural Decisions
+
+* **Zustand** → lightweight global state (auth, bookmarks)
+* **MMKV** → fast local storage for app data
+* **SecureStore** → secure storage for auth tokens
+* **React Query** → server state + caching
+* **Expo Router** → file-based navigation
+* **Modular folder structure** → feature-based separation
+
+---
+
+## 📱 Screenshots
+
+### 🔐 Auth Screens
+
+<p>
+  <img src="./assets/login.jpg" width="250"/>
+  <img src="./assets/register.jpg" width="250"/>
+</p>
+
+### 📚 Course Feed
+
+<p>
+  <img src="./assets/explore-course.jpg" width="250"/>
+</p>
+
+### 📄 Course Detail
+
+<p>
+  <img src="./assets/course-detail.jpg" width="250"/>
+</p>
+
+### 👤 Profile
+
+<p>
+  <img src="./assets/profile.jpg" width="250"/>
+</p>
+
+### 🌐 WebView
+
+<p>
+  <img src="./assets/webview.jpg" width="250"/>
+</p>
+
+---
+
+## ⚠️ Known Issues / Limitations
+
+* Some external API images fail to load in React Native due to **CORS / CDN restrictions**
+* Placeholder handling added as fallback
+* UI can be further improved
+* No backend-controlled pagination
+
+---
+
+## 🔄 Orientation Support
+
+* Supports both **Portrait & Landscape**
+* Configured via Expo settings
+
+---
+
+## ✍️ Additional Notes
+
+* Used `.env` for API base URL configuration
+* Clean error handling using `react-native-flash-message`
+* Optimized image loading using `expo-image`
+
+---
+
+## 📚 Documentation References
+
+* Obytes Starter Docs
+* Expo Documentation
+* React Query Docs
+
+---
+
+## 👨‍💻 Author
+
+**Harshit Jain**
+
+---
