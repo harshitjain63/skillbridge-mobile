@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useAuthStore } from '@/features/auth/use-auth-store';
 import { getToken } from '@/lib/auth/utils';
+import Env from '../../env';
 
 export const api = axios.create({
-  baseURL: 'https://api.freeapi.app/api/v1',
+  baseURL: Env.EXPO_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

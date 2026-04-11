@@ -35,7 +35,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: Env.EXPO_PUBLIC_SCHEME,
   slug: 'obytesapp',
   version: Env.EXPO_PUBLIC_VERSION.toString(),
-  orientation: 'portrait',
+  orientation: 'default',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
