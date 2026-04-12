@@ -23,9 +23,12 @@ import { useCourseStore } from '@/features/feed/use-course-store';
 import { useProfileStore } from '@/features/profile/use-profile-store';
 import { getToken } from '@/lib/auth/utils';
 
+const HTTP_REGEX = /^http:\/\//i;
+
 function getAvatarUri(avatar: string | undefined | null, username: string): string {
-  if (avatar && avatar.startsWith('http'))
-    return avatar;
+  if (avatar && avatar.startsWith('http')) {
+    return avatar.replace(HTTP_REGEX, 'https://');
+  }
   return `https://ui-avatars.com/api/?background=4f46e5&color=fff&size=200&name=${encodeURIComponent(username ?? 'U')}`;
 }
 
@@ -130,8 +133,9 @@ export default function ProfileScreen() {
 
       const newAvatar: string | undefined = res.data?.data?.avatar?.url;
 
-      if (newAvatar) {
+      if (newAvatar && user) {
         updateAvatar(newAvatar);
+        setAvatarSrc(getAvatarUri(newAvatar, user.username));
         showMessage({
           message: 'Avatar updated!',
           description: 'Your profile picture has been saved.',
@@ -166,13 +170,6 @@ export default function ProfileScreen() {
     }
   };
 
-  React.useEffect(() => {
-    if (user?.avatar) {
-      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
-      setAvatarSrc(null);
-    }
-  }, [user?.avatar]);
-
   if (!user) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: isDark ? '#030712' : '#f9fafb' }}>
@@ -182,6 +179,7 @@ export default function ProfileScreen() {
   }
 
   const avatarUri = avatarSrc || getAvatarUri(user.avatar, user.username);
+  console.log('avataruri', avatarUri);
   const bgColor = isDark ? '#030712' : '#f9fafb';
   const textPrimary = isDark ? '#f1f0ff' : '#111827';
   const textMuted = isDark ? '#9ca3af' : '#6b7280';
@@ -214,8 +212,9 @@ export default function ProfileScreen() {
       >
         <Pressable onPress={pickImage} disabled={avatarLoading}>
           <Image
+            key={user?.avatar ?? 'default'}
             source={{ uri: avatarUri }}
-            cachePolicy="memory-disk"
+            placeholder="https://placehold.co/300x200?text=Loading..."
             style={{
               width: 88,
               height: 88,
