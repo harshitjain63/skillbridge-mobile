@@ -24,6 +24,17 @@ https://drive.google.com/file/d/1YOhMwLb6jmsRUNH82FfoqOkD8kizatWv/view?usp=shari
 The development build APK is available in the Releases section.
 https://github.com/harshitjain63/skillbridge-mobile/releases/tag/v1.0.0
 
+## ⚙️ Native Setup Note
+
+The `android` and `ios` directories are intentionally ignored as this project uses Expo's managed workflow.
+
+To generate native projects locally, run:
+
+pnpm prebuild
+pnpm android
+# or
+pnpm ios
+
 ## 🚀 Features
 
 ### 🔐 Authentication
