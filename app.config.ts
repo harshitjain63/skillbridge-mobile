@@ -35,7 +35,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: Env.EXPO_PUBLIC_SCHEME,
   slug: 'obytesapp',
   version: Env.EXPO_PUBLIC_VERSION.toString(),
-  orientation: 'portrait',
+  orientation: 'default',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
@@ -71,6 +71,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         backgroundColor: '#2E3C4B',
         image: './assets/splash-icon.png',
         imageWidth: 150,
+      },
+    ],
+    [
+      'expo-secure-store',
+      {
+        configureAndroidBackup: true,
+        faceIDPermission: 'Allow $(PRODUCT_NAME) to access your Face ID biometric data.',
       },
     ],
     [

@@ -116,6 +116,8 @@ export function CourseCard({
             onError={() => {
               setImg(`https://placehold.co/300x200?text=${title}&font=roboto`);
             }}
+            placeholder="https://placehold.co/300x200?text=Loading..."
+
           />
 
           <View className="absolute bottom-2.5 left-2.5 rounded-full bg-indigo-500/90 px-3 py-1">
