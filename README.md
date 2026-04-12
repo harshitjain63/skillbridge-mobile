@@ -22,6 +22,7 @@ https://drive.google.com/file/d/1YOhMwLb6jmsRUNH82FfoqOkD8kizatWv/view?usp=shari
 ## 📦 APK Download
 
 The development build APK is available in the Releases section.
+https://github.com/harshitjain63/skillbridge-mobile/releases/tag/v1.0.0
 
 ## 🚀 Features
 
