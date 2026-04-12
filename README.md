@@ -30,8 +30,8 @@ The `android` and `ios` directories are intentionally ignored as this project us
 
 To generate native projects locally, run:
 
-pnpm prebuild
-pnpm android
+* pnpm prebuild
+* pnpm android
 # or
 pnpm ios
 
